@@ -1,0 +1,13 @@
+{
+  "/api": {
+    "target": "https://my-domain.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/backend2": {
+    "target": "https://my-web.com",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {"^/backend2": ""}
+  }
+}

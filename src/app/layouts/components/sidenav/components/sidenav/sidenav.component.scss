@@ -1,0 +1,332 @@
+.sidenav {
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  transition: all .5s ease;
+  position: fixed;
+  z-index: 9999;//2
+  top: 0;
+  width: 5rem;
+
+  height: 100vh;
+  box-shadow: 0.063rem 0 1.25rem 0 rgb(28 25 20 / 10%);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    padding: 0.938rem 0.938rem 0 0.938rem;
+    width: 100%;
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      text-align: center;
+      width: 3rem;
+      min-width: 3rem;
+      border-radius: 0.313rem;
+      padding: 0.313rem;
+      cursor: pointer;
+      border: none;
+
+      i {
+        font-size: 1.5rem;
+        color: var(--color-accent);
+      }
+    }
+
+    .logo-text {
+      margin-left: 0.5rem;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    .btn-close {
+      margin-left: auto;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background-color: transparent;
+      border: none;
+
+      .fa-times {
+        font-size: 24px;
+        color: var(--color-text-muted);
+      }
+    }
+  }
+}
+
+.sidenav-collapsed {
+  width: 16.5625rem;
+}
+
+.sidenav-nav {
+  list-style: none;
+  padding: 0.938rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+
+  .sidenav-nav-item {
+    width: 100%;
+    margin-bottom: 0.625rem;
+
+    .sidenav-nav-link {
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-radius: 0.625rem;
+      transition: all .3s ease;
+
+      .sidenav-link-icon {
+        font-size: 15px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+
+      .sidenav-link-text {
+        margin-left: 1.5rem;
+      }
+    }
+
+    .sidenav-nav-link:hover {
+      background-color: var(--color-surface-2);
+      color: var(--color-text-primary);
+
+      .menu-collapse-icon {
+        color: var(--color-text-primary);
+      }
+    }
+  }
+
+  .sidenav-nav-item:hover {
+    .sidenav-nav-link {
+      background-color: var(--color-surface-2);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .sidenav-nav-group-header {
+    width: 100%;
+    padding: 0.75rem 0.5rem 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8690a3;
+    cursor: default;
+    user-select: none;
+  }
+}
+
+.active {
+  background-color: var(--color-accent-bg);
+
+  .menu-collapse-icon,
+  .sidenav-link-icon,
+  .sidenav-link-text {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+}
+
+.menu-collapse-icon {
+  font-size: 25px;
+  width: 2rem;
+  min-width: 2rem;
+  margin: auto 0.5rem auto auto;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.scrollwrap {
+  overflow-y: auto;
+  visibility: hidden;
+  height: calc(100% - 3.65rem);
+}
+
+.sidenav-nav,
+.scrollwrap:hover,
+.scrollwrap:focus {
+  visibility: visible;
+}
+
+.scrollwrap_delayed {
+  transition: visibility 0.5s 0.2s;
+}
+
+.scrollwrap_delayed:hover {
+  transition: visibility 0.2s 0.2s;
+}
+
+//works on chrome, egde and safai
+.scrollwrap::-webkit-scrollbar-track {
+  width: 10px;
+}
+
+.scrollwrap::-webkit-scrollbar-thumb {
+  background-color: #556268;
+  border-radius: 20px;
+}
+
+//works on firefox
+.scrollwrap {
+  scrollbar-width: thin;
+  scrollbar-color: #556268;
+}
+
+/*Floating menu*/
+
+.floating-submenu {
+  width: max-content;
+  position: absolute;
+  top: 0;
+  left: 60px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgb(28 25 20 / 12%);
+  padding: 10px;
+  z-index: 10000;
+  transition: opacity 0.3s;
+  border-radius: 0.5rem;
+
+  &__title {
+    color: var(--color-text-muted);
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
+}
+
+.floating-submenu {
+  ::ng-deep .sublevel-nav ul {
+    //margin-left: -10px;
+  }
+}
+
+.sidenav-collapsed .floating-submenu {
+  left: 80px;
+}
+
+.sidenav-nav-item {
+  position: relative;
+}
+
+.nav-fade-enter {
+  animation: navFadeIn 300ms ease both;
+}
+
+.nav-fade-leave {
+  animation: navFadeOut 180ms ease both;
+}
+
+.rotate-enter {
+  animation: rotateIn 1500ms ease both;
+}
+
+@keyframes navFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes navFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-fade-enter,
+  .nav-fade-leave,
+  .rotate-enter {
+    animation: none;
+  }
+
+  .sidenav,
+  .sidenav-nav-link {
+    transition: none;
+  }
+}
+
+@keyframes rotateIn {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: rotate(1turn);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(2turn);
+  }
+}
+
+// Mobile drawer behavior
+@media (max-width: 768px) {
+  .sidenav {
+    transform: translateX(-100%);
+    width: 100vw;
+    left: 0;
+    // Override transition to use transform (GPU-accelerated)
+    transition: transform 0.3s ease;
+  }
+
+  .sidenav.sidenav--mobile-open {
+    transform: translateX(0);
+  }
+
+  // When drawer is open on mobile, show full-width (override sidenav-collapsed width)
+  .sidenav-collapsed {
+    width: 100vw;
+  }
+}
+
+// Backdrop overlay
+.sidenav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998; // Below sidenav (9999), above content
+  cursor: pointer;
+  animation: backdropFadeIn 0.3s ease;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Wrapper has no visual impact
+.sidenav-host {
+  display: contents;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @media (max-width: 768px) {
+    .sidenav { transition: none; }
+  }
+  .sidenav-backdrop { animation: none; }
+}

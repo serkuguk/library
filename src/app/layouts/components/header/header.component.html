@@ -1,0 +1,42 @@
+<div class="header-wrapper" [ngClass]="getHeadClass()">
+  <div class="header-container">
+    @if (isMobile() && (isAuthenticated$ | async)) {
+      <button class="hamburger-btn" (click)="onHamburgerClick.emit()" aria-label="Open navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    }
+    <div class="header-container__logo">
+      <i class="fal fa-book-open"></i>
+      <span>Librería</span>
+    </div>
+
+    @if (isAuthenticated$ | async) {
+      <div class="header-search">
+        <div class="header-search__icon">
+          <i class="pi pi-search"></i>
+        </div>
+        <input
+          class="header-search__input"
+          type="text"
+          [placeholder]="'Поиск: книги, читатели, экземпляры...'"
+          [formControl]="searchControl"
+          (keydown.escape)="searchControl.setValue('')"
+        />
+      </div>
+      <div class="header-right">
+        <button class="lang-btn" (click)="toggleLang()" [title]="'Переключить язык'">
+          {{ langLabel() }}
+        </button>
+        <app-user-panel></app-user-panel>
+      </div>
+    } @else {
+      <div class="language">
+        <a (click)="translate.use('sp')"><span>ES</span></a>
+        |
+        <a (click)="translate.use('en')"><span>EN</span></a>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,4 @@
+packages:
+  - "src/*"
+  - "src/app/pages/*"
+  - "src/app/shared/*"

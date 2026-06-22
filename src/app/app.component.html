@@ -1,0 +1,22 @@
+<div class="global-wrapper">
+  @if (isAuthenticated$ | async) {
+    <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"
+                 [mobileOpen]="mobileOpen()"
+                 (onClose)="onSidenavClose()"></app-sidenav>
+  }
+  <div class="global-container">
+    <header>
+      <app-header [collapsed]="isSideNavCollapsed()"
+                  [screenWidth]="screenWidth()"
+                  (onHamburgerClick)="onHamburgerClick()"></app-header>
+    </header>
+    <main>
+      <app-body [collapsed]="isSideNavCollapsed()"
+                [screenWidth]="screenWidth()"></app-body>
+    </main>
+    <footer>
+      <app-footer [collapsed]="isSideNavCollapsed()"
+                  [screenWidth]="screenWidth()"></app-footer>
+    </footer>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+# changed version fo typescript from 5.3.2 to 5.2.0 by erro "Failed to initialize Angular compilation - The Angular Compiler requires TypeScript >=5.2.0 and <5.3.0 but 5.3.2 was found instead"

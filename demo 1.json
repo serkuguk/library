@@ -1,0 +1,931 @@
+{
+  "uuid": "0bd75999-3114-494d-b99c-4f174c9ce36e",
+  "lastMigration": 33,
+  "name": "Demo API",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "d55c23e9-a8c3-4d49-8af2-11090cc732b1",
+      "type": "crud",
+      "documentation": "Endpoint performing CRUD operations on a data bucket (automatically creates GET, POST, PUT, DELETE routes)",
+      "method": "",
+      "endpoint": "users",
+      "responses": [
+        {
+          "uuid": "b6e07863-f605-43d3-a1f0-27a7d374892a",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Perform CRUD operations on the \"Users\" databucket (\"Data\" tab at the top)",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "zlgf",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "12783718-9e39-43b4-9b76-43721b2537b0",
+      "type": "http",
+      "documentation": "Generate random body (JSON, text, CSV, etc) with templating",
+      "method": "get",
+      "endpoint": "template",
+      "responses": [
+        {
+          "uuid": "56879416-2ced-4299-ad62-636308f431de",
+          "body": "{\n  \"Templating example\": \"For more information about templating, click the blue 'i' above this editor\",\n  \"users\": [\n    {{# repeat (queryParam 'total' '10') }}\n      {\n        \"userId\": \"{{ faker 'number.int' min=10000 max=100000 }}\",\n        \"firstname\": \"{{ faker 'person.firstName' }}\",\n        \"lastname\": \"{{ faker 'person.lastName' }}\",\n        \"friends\": [\n          {{# repeat (faker 'number.int' 5) }}\n            {\n              \"id\": \"{{ faker 'string.uuid' }}\"\n            }\n          {{/ repeat }}\n        ]\n      },\n    {{/ repeat }}\n  ],\n  \"total\": \"{{queryParam 'total' '10'}}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Creates 10 random users, or the amount specified in the 'total' query param",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b56b9c93-3c1b-4311-86a6-5f91b926ea0c",
+      "type": "http",
+      "documentation": "Use multiple responses with rules",
+      "method": "post",
+      "endpoint": "content/:param1",
+      "responses": [
+        {
+          "uuid": "b8ca70ea-377f-4729-a480-5ff7484c8a4c",
+          "body": "{\n  \"Rules example\": \"Default response. Served if route param 'param1' is not present.\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Default response",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f853273b-ad8c-456e-a0cc-47beeb4fcb44",
+          "body": "{\n  \"Rules example\": \"Content XYZ. Served if route param 'param1' equals 'xyz'. (See in 'Rules' tab)\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Content XYZ",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "param1",
+              "value": "xyz",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "e185f6bd-d911-42ef-a1b1-ebdd037058a1",
+          "body": "{\n  \"Rules example\": \"Content not found. Served if route param 'param1' is not equal to 'xyz'. (See in 'Rules' tab)\"\n}\n",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Content not found",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "param1",
+              "value": "^(?!.*xyz).*$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "dbf29625-0900-4b9c-a168-856d6cf6f960",
+      "type": "http",
+      "documentation": "Path supports various patterns",
+      "method": "put",
+      "endpoint": "path/with/pattern(s)?/*",
+      "responses": [
+        {
+          "uuid": "baeff707-7fa4-4f31-afc1-36a7419e230b",
+          "body": "The current path will match the following routes: \nhttp://localhost:3000/path/with/pattern/\nhttp://localhost:3000/path/with/patterns/\nhttp://localhost:3000/path/with/patterns/anything-else\n\nLearn more about Mockoon's routing: https://mockoon.com/docs/latest/api-endpoints/routing/",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9315754c-8cd5-4343-ac78-b3a67dd3c4ba",
+      "type": "http",
+      "documentation": "\"Guard\" route protecting all routes starting with /protected/",
+      "method": "all",
+      "endpoint": "protected/*",
+      "responses": [
+        {
+          "uuid": "3d8123ce-3bd7-4949-aa9b-849cb81d2b3c",
+          "body": "{\n  \"error\": \"Unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Requires the presence of an 'Authorization' header",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "operator": "null",
+              "invert": false,
+              "value": ""
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": "FALLBACK",
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1cc0d31f-2d3f-43b3-92b8-5a8454e94e94",
+      "type": "http",
+      "documentation": "Protected route",
+      "method": "get",
+      "endpoint": "protected/path",
+      "responses": [
+        {
+          "uuid": "5ce8bcbc-9c7b-4f7f-840a-50a1d6f4b65a",
+          "body": "You can serve the same responses based on the same rules for all or part of your endpoints by creating global routes using the fallback mode and a wildcard path. \nThis is useful if you want to protect all your endpoints by checking if an Authorization header is present or if you want to verify that all your requests contain a specific property in their body.\nTo learn more: https://mockoon.com/docs/latest/route-responses/global-routes-with-rules/",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "method": "get",
+      "endpoint": "forward-and-record",
+      "documentation": "Can Mockoon forward or record entering requests?",
+      "responses": [
+        {
+          "uuid": "b2a0601e-2ebd-4564-b2a6-a09276d2e6e9",
+          "body": "Mockoon can also act as a proxy and forward all entering requests that are not caught by declared routes. \nYou can activate this option in the environment settings (\"Settings\" tab at the top). \nTo learn more: https://mockoon.com/docs/latest/server-configuration/proxy-mode/\n\nAll entering requests, and responses from the proxied server will be recorded and can be automatically mocked (\"Logs\" tab at the top).\nTo learn more: https://mockoon.com/docs/latest/logging-and-recording/requests-logging/",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "uuid": "dcbd4546-9d3b-4680-993d-b0f30198ed59",
+      "type": "http",
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "eabc409b-4248-41e4-89f3-cdd4c56e0bf9",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/auth/signin",
+      "responses": [
+        {
+          "uuid": "fe4ede13-21cb-43f9-84d8-4e4affb3c059",
+          "body": "{\r\n  \"message\": \"Authenticated successfully\",\r\n  \"user\": {\r\n    \"role\": \"admin\"\r\n  },\r\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im50dGRhdGEiLCJwYXNzd29yZCI6InRlbXAxMjM0In0.XGW5tX9u_i2f3pLTSPvnXNsGgtbyqlcFfh2YWVrVx0Y\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "$.username",
+              "value": "nttdata",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "$.password",
+              "value": "temp1234",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6cc9b6f4-2c0a-457d-a33a-a82ed34578ed",
+          "body": "{\r\n  \"success\": false,\r\n  \"message\": \"Login or Password is incorrect\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "$.username",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "$password",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "$.username",
+              "value": "nttdata",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "$password",
+              "value": "temp1234",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e3ca2dc6-3b20-48fe-ac23-825143327926",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/example/1",
+      "responses": [
+        {
+          "uuid": "772e1302-2904-476c-8e86-e5e812706570",
+          "body": "{\r\n  \"message\": \"Authenticated successfully\",\r\n  \"user\": {\r\n    \"role\": \"admin\"\r\n  },\r\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im50dGRhdGEiLCJwYXNzd29yZCI6InRlbXAxMjM0In0.XGW5tX9u_i2f3pLTSPvnXNsGgtbyqlcFfh2YWVrVx0Y\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{jwt}}"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "^Bearer[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "02ba7409-8de9-4cc1-9d8d-81df0d0ec004",
+          "body": "{\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"Invalid JWT token\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "null",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer[0-9]+\\.[\\-_]+\\.[A-Z\\-_]+$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "a01dc33b-8d79-4832-a74c-61e29ae6e84c",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/token/refresh",
+      "responses": [
+        {
+          "uuid": "4e690f44-6916-4f59-bc07-bfb7dac3b127",
+          "body": "{\r\n  \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im50dGRhdGEiLCJwYXNzd29yZCI6InRlbXAxMjM0In0.XGW5tX9u_i2f3pLTSPvnXNsGgtbyqlcFfh2YWVrVx0Y\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{jwt}}"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "^Bearer[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dbea6ae6-719b-40d0-96d2-0ab209d53478",
+          "body": "{\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"Invalid JWT token\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "null",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer[0-9]+\\.[\\-_]+\\.[A-Z\\-_]+$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "bfa32051-4636-4a37-a08a-d541eabd61b9",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 403,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "edca61f0-ab3e-490e-8b40-11df6bdae2d0",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/auth/signout",
+      "responses": [
+        {
+          "uuid": "10265826-9930-4ee8-96ca-102d18b1b534",
+          "body": "{\r\n  \"message\": \"Sign out successfully\",\r\n  \"success\": true,\r\n  \"user\": {},\r\n  \"access_token\": \"\"\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "22a78258-bf17-483c-8e1c-db6d0fd1eeac",
+          "body": "{\r\n  \"success\": false,\r\n  \"error\": \"Sing out error\",\r\n  \"message\": \"Sume error\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c427af80-6261-4181-ad62-eff531c55918",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/basic-example/basic-table",
+      "responses": [
+        {
+          "uuid": "c6e78100-b7da-4018-a7f3-b5d412620a2d",
+          "body": "{\r\n  \"basicTable\" :  [\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1002,\r\n            \"InstalacionDesc\": \"LUCAS DE URQUIJO\",\r\n            \"PotenciaInst\": 39.6,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 100.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2024-07-31T08:19:14\",\r\n            \"Mayor10Mw\": \"SI\",\r\n            \"Estado\": null,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1004,\r\n            \"InstalacionDesc\": \"TRANCO DEL LOBO\",\r\n            \"PotenciaInst\": 3.84,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"09-01-2003\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 56,\r\n            \"PorcentajeIbd\": 100.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 8,\r\n            \"IdCuenca\": 7,\r\n            \"FechaCs\": \"2023-01-23T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 1,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IB. RENOV ENERGIA SAU\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"MiniRO\",\r\n            \"CuencaDesc\": \"MHO\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1006,\r\n            \"InstalacionDesc\": \"CH COFRENTES\",\r\n            \"PotenciaInst\": 124.2,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 100.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-03-22T00:00:00\",\r\n            \"Mayor10Mw\": \"SI\",\r\n            \"Estado\": 1,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1007,\r\n            \"InstalacionDesc\": \"EL PICAZO\",\r\n            \"PotenciaInst\": 18.0,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 100.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-03-22T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 1,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1008,\r\n            \"InstalacionDesc\": \"PEA\",\r\n            \"PotenciaInst\": 1.43,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-05-2022\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 56,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 8,\r\n            \"IdCuenca\": 7,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IB. RENOV ENERGIA SAU\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"MiniRO\",\r\n            \"CuencaDesc\": \"MHO\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1009,\r\n            \"InstalacionDesc\": \"BUGARRA\",\r\n            \"PotenciaInst\": 0.64,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-05-2022\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 56,\r\n            \"PorcentajeIbd\": 22.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 8,\r\n            \"IdCuenca\": null,\r\n            \"FechaCs\": \"2024-09-11T13:40:17\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": null,\r\n            \"Bombeo\": null,\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": \"ROMEO\",\r\n            \"SociedadTitularDesc\": \"IB. RENOV ENERGIA SAU\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"MiniRO\",\r\n            \"CuencaDesc\": null\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1010,\r\n            \"InstalacionDesc\": \"ALMADENES\",\r\n            \"PotenciaInst\": 14.4,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 100.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-03-22T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 1,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1011,\r\n            \"InstalacionDesc\": \"CHULILLA\",\r\n            \"PotenciaInst\": 3.12,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-05-2022\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 56,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 8,\r\n            \"IdCuenca\": 7,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IB. RENOV ENERGIA SAU\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"MiniRO\",\r\n            \"CuencaDesc\": \"MHO\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1012,\r\n            \"InstalacionDesc\": \"RIBESALBES\",\r\n            \"PotenciaInst\": 7.04,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1013,\r\n            \"InstalacionDesc\": \"COLMENAR\",\r\n            \"PotenciaInst\": 5.6,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1014,\r\n            \"InstalacionDesc\": \"LOS CANTOS\",\r\n            \"PotenciaInst\": 4.8,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        },\r\n        {\r\n            \"CodPais\": \"ES\",\r\n            \"IdInstalacion\": 1015,\r\n            \"InstalacionDesc\": \"LOS VILLANUEVAS\",\r\n            \"PotenciaInst\": 3.6,\r\n            \"FechaPuestaMarcha\": null,\r\n            \"FechaIni\": \"01-01-2023\",\r\n            \"FechaFin\": \"01-01-9999\",\r\n            \"IdSociedadTitular\": 57,\r\n            \"PorcentajeIbd\": 0.0,\r\n            \"IdSocRepresentacion\": 1,\r\n            \"IdTecnologia\": 2,\r\n            \"IdCuenca\": 6,\r\n            \"FechaCs\": \"2023-05-17T00:00:00\",\r\n            \"Mayor10Mw\": \"NO\",\r\n            \"Estado\": 2,\r\n            \"Bombeo\": \"NO\",\r\n            \"PorcentajeBombeo\": null,\r\n            \"Proyecto\": null,\r\n            \"SociedadTitularDesc\": \"IBERDROLA GENERACION\",\r\n            \"SocRepresentacionDesc\": \"IBENES\",\r\n            \"TecnologiaDesc\": \"Hidraúlica\",\r\n            \"CuencaDesc\": \"JUCAR\"\r\n        }\r\n  ]\r\n}\r\n\r\n\r\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{jwt}}"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "^Bearer[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "fa9b8858-5c90-42e9-9120-a34ee972fd4a",
+          "body": "{\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"Invalid JWT token\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "null",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer[0-9]+\\.[\\-_]+\\.[A-Z\\-_]+$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "29d0ee06-fc90-4344-b754-618c969f4503",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0df8137b-fa64-4ed4-95af-9b4fe99e6d81",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "be71e166-956c-44e8-91fd-b7574c487442",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/basic-example/basic-select",
+      "responses": [
+        {
+          "uuid": "c20593b2-d0e5-43d6-ae18-f598d4794595",
+          "body": "{\r\n  \"basicDataSelect\" : [\r\n    \"Afghanistan\",\r\n    \"Albania\",\r\n    \"Algeria\",\r\n    \"American Samoa\",\r\n    \"Andorra\",\r\n    \"Angola\",\r\n    \"Anguilla\",\r\n    \"Antarctica\",\r\n    \"Antigua and Barbuda\",\r\n    \"Argentina\",\r\n    \"Armenia\",\r\n    \"Aruba\",\r\n    \"Australia\",\r\n    \"Austria\",\r\n    \"Azerbaijan\",\r\n    \"Bahamas\",\r\n    \"Bahrain\",\r\n    \"Bangladesh\",\r\n    \"Barbados\",\r\n    \"Belarus\",\r\n    \"Belgium\",\r\n    \"Belize\",\r\n    \"Benin\",\r\n    \"Bermuda\",\r\n    \"Bhutan\",\r\n    \"Bolivia\",\r\n    \"Bonaire, Sint Eustatius and Saba\",\r\n    \"Bosnia and Herzegovina\",\r\n    \"Botswana\",\r\n    \"Bouvet Island\",\r\n    \"Brazil\",\r\n    \"British Indian Ocean Territory\",\r\n    \"Brunei Darussalam\",\r\n    \"Bulgaria\",\r\n    \"Burkina Faso\",\r\n    \"Burundi\",\r\n    \"Cabo Verde\",\r\n    \"Cambodia\",\r\n    \"Cameroon\",\r\n    \"Canada\",\r\n    \"Cayman Islands\",\r\n    \"Central African Republic\",\r\n    \"Chad\",\r\n    \"Chile\",\r\n    \"China\",\r\n    \"Christmas Island\",\r\n    \"Cocos (Keeling) Islands\",\r\n    \"Colombia\",\r\n    \"Comoros\",\r\n    \"Congo\",\r\n    \"Cook Islands\",\r\n    \"Costa Rica\",\r\n    \"Croatia\",\r\n    \"Cuba\",\r\n    \"Curaçao\",\r\n    \"Cyprus\",\r\n    \"Czechia\",\r\n    \"Côte dIvoire\",\r\n    \"Denmark\",\r\n    \"Djibouti\",\r\n    \"Dominica\",\r\n    \"Dominican Republic\",\r\n    \"Ecuador\",\r\n    \"Egypt\",\r\n    \"El Salvador\",\r\n    \"Equatorial Guinea\",\r\n    \"Eritrea\",\r\n    \"Estonia\",\r\n    \"Eswatini\",\r\n    \"Ethiopia\",\r\n    \"Falkland Islands\",\r\n    \"Faroe Islands\",\r\n    \"Fiji\",\r\n    \"Finland\",\r\n    \"France\",\r\n    \"French Guiana\",\r\n    \"French Polynesia\",\r\n    \"French Southern Territories\",\r\n    \"Gabon\",\r\n    \"Gambia\",\r\n    \"Georgia\",\r\n    \"Germany\",\r\n    \"Ghana\",\r\n    \"Gibraltar\",\r\n    \"Greece\",\r\n    \"Greenland\",\r\n    \"Grenada\",\r\n    \"Guadeloupe\",\r\n    \"Guam\",\r\n    \"Guatemala\",\r\n    \"Guernsey\",\r\n    \"Guinea\",\r\n    \"Guinea-Bissau\",\r\n    \"Guyana\",\r\n    \"Haiti\",\r\n    \"Heard Island and McDonald Islands\",\r\n    \"Holy See\",\r\n    \"Honduras\",\r\n    \"Hong Kong\",\r\n    \"Hungary\",\r\n    \"Iceland\",\r\n    \"India\",\r\n    \"Indonesia\",\r\n    \"Iran\",\r\n    \"Iraq\",\r\n    \"Ireland\",\r\n    \"Isle of Man\",\r\n    \"Israel\",\r\n    \"Italy\",\r\n    \"Jamaica\",\r\n    \"Japan\",\r\n    \"Jersey\",\r\n    \"Jordan\",\r\n    \"Kazakhstan\",\r\n    \"Kenya\",\r\n    \"Kiribati\",\r\n    \"Korea\",\r\n    \"Kuwait\",\r\n    \"Kyrgyzstan\",\r\n    \"Lao People s Democratic Republic\",\r\n    \"Latvia\",\r\n    \"Lebanon\",\r\n    \"Lesotho\",\r\n    \"Liberia\",\r\n    \"Libya\",\r\n    \"Liechtenstein\",\r\n    \"Lithuania\",\r\n    \"Luxembourg\",\r\n    \"Macao\",\r\n    \"Madagascar\",\r\n    \"Malawi\",\r\n    \"Malaysia\",\r\n    \"Maldives\",\r\n    \"Mali\",\r\n    \"Malta\",\r\n    \"Marshall Islands\",\r\n    \"Martinique\",\r\n    \"Mauritania\",\r\n    \"Mauritius\",\r\n    \"Mayotte\",\r\n    \"Mexico\",\r\n    \"Micronesia\",\r\n    \"Moldova\",\r\n    \"Monaco\",\r\n    \"Mongolia\",\r\n    \"Montenegro\",\r\n    \"Montserrat\",\r\n    \"Morocco\",\r\n    \"Mozambique\",\r\n    \"Myanmar\",\r\n    \"Namibia\",\r\n    \"Nauru\",\r\n    \"Nepal\",\r\n    \"Netherlands\",\r\n    \"New Caledonia\",\r\n    \"New Zealand\",\r\n    \"Nicaragua\",\r\n    \"Niger\",\r\n    \"Nigeria\",\r\n    \"Niue\",\r\n    \"Norfolk Island\",\r\n    \"Northern Mariana Islands\",\r\n    \"Norway\",\r\n    \"Oman\",\r\n    \"Pakistan\",\r\n    \"Palau\",\r\n    \"Palestine, State of\",\r\n    \"Panama\",\r\n    \"Papua New Guinea\",\r\n    \"Paraguay\",\r\n    \"Peru\",\r\n    \"Philippines\",\r\n    \"Pitcairn\",\r\n    \"Poland\",\r\n    \"Portugal\",\r\n    \"Puerto Rico\",\r\n    \"Qatar\",\r\n    \"Republic of North Macedonia\",\r\n    \"Romania\",\r\n    \"Russian Federation\",\r\n    \"Rwanda\",\r\n    \"Réunion\",\r\n    \"Saint Barthélemy\",\r\n    \"Saint Helena\",\r\n    \"Saint Kitts and Nevis\",\r\n    \"Saint Lucia\",\r\n    \"Saint Martin\",\r\n    \"Saint Pierre and Miquelon\",\r\n    \"Saint Vincent and the Grenadines\",\r\n    \"Samoa\",\r\n    \"San Marino\",\r\n    \"Sao Tome and Principe\",\r\n    \"Saudi Arabia\",\r\n    \"Senegal\",\r\n    \"Serbia\",\r\n    \"Seychelles\",\r\n    \"Sierra Leone\",\r\n    \"Singapore\",\r\n    \"Sint Maarten (Dutch part)\",\r\n    \"Slovakia\",\r\n    \"Slovenia\",\r\n    \"Solomon Islands\",\r\n    \"Somalia\",\r\n    \"South Africa\",\r\n    \"South Georgia\",\r\n    \"South Sudan\",\r\n    \"Spain\",\r\n    \"Sri Lanka\",\r\n    \"Sudan\",\r\n    \"Suriname\",\r\n    \"Svalbard and Jan Mayen\",\r\n    \"Sweden\",\r\n    \"Switzerland\",\r\n    \"Syrian Arab Republic\",\r\n    \"Taiwan\",\r\n    \"Tajikistan\",\r\n    \"Tanzania, United Republic of\",\r\n    \"Thailand\",\r\n    \"Timor-Leste\",\r\n    \"Togo\",\r\n    \"Tokelau\",\r\n    \"Tonga\",\r\n    \"Trinidad and Tobago\",\r\n    \"Tunisia\",\r\n    \"Turkey\",\r\n    \"Turkmenistan\",\r\n    \"Turks and Caicos Islands\",\r\n    \"Tuvalu\",\r\n    \"Uganda\",\r\n    \"Ukraine\",\r\n    \"United Arab Emirates\",\r\n    \"United Kingdom\",\r\n    \"United States of America\",\r\n    \"Uruguay\",\r\n    \"Uzbekistan\",\r\n    \"Vanuatu\",\r\n    \"Venezuela\",\r\n    \"Viet Nam\",\r\n    \"Virgin Islands (British)\",\r\n    \"Virgin Islands (U.S.)\",\r\n    \"Wallis and Futuna\",\r\n    \"Western Sahara\",\r\n    \"Yemen\",\r\n    \"Zambia\",\r\n    \"Zimbabwe\",\r\n    \"Åland Islands\"\r\n  ]\r\n}\r\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{jwt}}"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "^Bearer[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+\\.[a-zA-Z0-9\\-_]+$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "fa18b71f-bbb7-4749-82cb-94d08683e904",
+          "body": "{\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"Invalid JWT token\"\r\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "null",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Bearer[0-9]+\\.[\\-_]+\\.[A-Z\\-_]+$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "d55c23e9-a8c3-4d49-8af2-11090cc732b1"
+    },
+    {
+      "type": "route",
+      "uuid": "12783718-9e39-43b4-9b76-43721b2537b0"
+    },
+    {
+      "type": "route",
+      "uuid": "b56b9c93-3c1b-4311-86a6-5f91b926ea0c"
+    },
+    {
+      "type": "route",
+      "uuid": "dbf29625-0900-4b9c-a168-856d6cf6f960"
+    },
+    {
+      "type": "route",
+      "uuid": "9315754c-8cd5-4343-ac78-b3a67dd3c4ba"
+    },
+    {
+      "type": "route",
+      "uuid": "1cc0d31f-2d3f-43b3-92b8-5a8454e94e94"
+    },
+    {
+      "type": "route",
+      "uuid": "dcbd4546-9d3b-4680-993d-b0f30198ed59"
+    },
+    {
+      "type": "route",
+      "uuid": "eabc409b-4248-41e4-89f3-cdd4c56e0bf9"
+    },
+    {
+      "type": "route",
+      "uuid": "e3ca2dc6-3b20-48fe-ac23-825143327926"
+    },
+    {
+      "type": "route",
+      "uuid": "a01dc33b-8d79-4832-a74c-61e29ae6e84c"
+    },
+    {
+      "type": "route",
+      "uuid": "edca61f0-ab3e-490e-8b40-11df6bdae2d0"
+    },
+    {
+      "type": "route",
+      "uuid": "c427af80-6261-4181-ad62-eff531c55918"
+    },
+    {
+      "type": "route",
+      "uuid": "be71e166-956c-44e8-91fd-b7574c487442"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "01b0af59-e888-4a90-8bdc-ee12716a9e28",
+      "id": "zlgf",
+      "name": "Users",
+      "documentation": "",
+      "value": "[\n  {{#repeat 50}}\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"username\": \"{{faker 'internet.userName'}}\"\n  }\n  {{/repeat}}\n]"
+    }
+  ],
+  "callbacks": []
+}

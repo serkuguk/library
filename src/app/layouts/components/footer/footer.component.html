@@ -1,0 +1,7 @@
+<div class="footer-wrapper" [ngClass]="getFooterClass()">
+  <div class="footer-container">
+    @if (isAuthenticated$ | async) {
+      <div class="footer-container__logo"></div>
+    }
+  </div>
+</div>
