@@ -1,5 +1,132 @@
-<div class="home-wrapper">
-  <div class="home-wrapper__container">
-    <div class="home-content"></div>
-  </div>
+<div class="dashboard">
+
+  <header class="dashboard__header">
+    <div class="dashboard__heading">
+      <span class="dashboard__date">{{ 'PAGES.HOME.TODAY' | translate }}, {{ today }}</span>
+      <h1 class="dashboard__title">{{ 'PAGES.HOME.TITLE' | translate }}</h1>
+    </div>
+    <app-button
+        class="dashboard__action"
+        [label]="'PAGES.HOME.ISSUE' | translate"
+        [icon]="'pi pi-arrow-right'"
+        [iconPos]="'left'"
+        (click)="onIssue()"
+    ></app-button>
+  </header>
+
+  <section class="dashboard__stats">
+    <div class="stat-card stat-card--danger">
+      <span class="stat-card__value">{{ stats.overdue }}</span>
+      <span class="stat-card__label">{{ 'PAGES.HOME.STATS.OVERDUE' | translate }}</span>
+    </div>
+    <div class="stat-card stat-card--warning">
+      <span class="stat-card__value">{{ stats.dueToday }}</span>
+      <span class="stat-card__label">{{ 'PAGES.HOME.STATS.DUE_TODAY' | translate }}</span>
+    </div>
+    <div class="stat-card stat-card--success">
+      <span class="stat-card__value">{{ stats.readyToIssue }}</span>
+      <span class="stat-card__label">{{ 'PAGES.HOME.STATS.READY' | translate }}</span>
+    </div>
+  </section>
+
+  <!-- Préstamos vencidos -->
+  <section class="dashboard__panel">
+    <div class="dashboard__panel-head">
+      <h2 class="dashboard__panel-title">{{ 'PAGES.HOME.OVERDUE_TITLE' | translate }}</h2>
+    </div>
+    <app-table
+        [dataSource]="overdueRows"
+        [dataSourceColumns]="overdueColumns"
+        [showRowActions]="false"
+        [showIconSort]="false"
+        [paginator]="false">
+      <ng-template #customCellTemplate let-rowData let-col="col">
+        @switch (col.field) {
+          @case ('lector') {
+            <span class="link" (click)="onReaderClick(rowData)">{{ rowData.lector }}</span>
+          }
+          @case ('importe') {
+            <span class="link link--danger" (click)="onReaderClick(rowData)">{{ rowData.importe }}</span>
+          }
+          @case ('acciones') {
+            <app-button
+                [label]="'PAGES.HOME.DETAILS' | translate"
+                [styleClass]="'p-button-outlined'"
+                (click)="onDetails(rowData)"
+            ></app-button>
+          }
+          @default {
+            <span>{{ rowData[col.field] }}</span>
+          }
+        }
+      </ng-template>
+    </app-table>
+  </section>
+
+  <!-- Pendientes de recogida -->
+  <section class="dashboard__panel">
+    <div class="dashboard__panel-head">
+      <h2 class="dashboard__panel-title">{{ 'PAGES.HOME.AWAITING_TITLE' | translate }}</h2>
+    </div>
+    <app-table
+        [dataSource]="awaitingRows"
+        [dataSourceColumns]="awaitingColumns"
+        [showRowActions]="false"
+        [showIconSort]="false"
+        [paginator]="false">
+      <ng-template #customCellTemplate let-rowData let-col="col">
+        @switch (col.field) {
+          @case ('lector') {
+            <span class="link" (click)="onReaderClick(rowData)">{{ rowData.lector }}</span>
+          }
+          @case ('inventario') {
+            <span class="mono">{{ rowData.inventario }}</span>
+          }
+          @case ('acciones') {
+            <app-button
+                [label]="'PAGES.HOME.DELIVER' | translate"
+                (click)="onDeliver(rowData)"
+            ></app-button>
+          }
+          @default {
+            <span>{{ rowData[col.field] }}</span>
+          }
+        }
+      </ng-template>
+    </app-table>
+  </section>
+
+  <!-- Reservas -->
+  <section class="dashboard__panel">
+    <div class="dashboard__panel-head">
+      <h2 class="dashboard__panel-title">
+        {{ 'PAGES.HOME.RESERVATIONS_TITLE' | translate }} ({{ reservationsRows.length }})
+      </h2>
+    </div>
+    <app-table
+        [dataSource]="reservationsRows"
+        [dataSourceColumns]="reservationsColumns"
+        [showRowActions]="false"
+        [showIconSort]="false"
+        [paginator]="false">
+      <ng-template #customCellTemplate let-rowData let-col="col">
+        @switch (col.field) {
+          @case ('lector') {
+            <span class="link" (click)="onReaderClick(rowData)">{{ rowData.lector }}</span>
+          }
+          @case ('acciones') {
+            <app-button
+                [label]="'PAGES.HOME.RESERVATION_ACTION' | translate"
+                [styleClass]="'p-button-outlined'"
+                (click)="onReservationAction(rowData)"
+            ></app-button>
+          }
+          @default {
+            <span>{{ rowData[col.field] }}</span>
+          }
+        }
+      </ng-template>
+    </app-table>
+  </section>
+
 </div>

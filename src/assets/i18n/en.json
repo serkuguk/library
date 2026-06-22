@@ -1,8 +1,38 @@
 {
   "PAGES" : {
     "HOME" : {
-      "TITLE": "Welcome, to NTT DATA",
-      "WELCOME": "Thank you {{name}},  you are"
+      "TITLE": "Home",
+      "WELCOME": "Thank you {{name}},  you are",
+      "TODAY": "Today",
+      "ISSUE": "Issue book",
+      "STATS": {
+        "OVERDUE": "Overdue",
+        "DUE_TODAY": "Due today",
+        "READY": "Ready to issue"
+      },
+      "OVERDUE_TITLE": "Overdue loans",
+      "AWAITING_TITLE": "Awaiting pickup",
+      "RESERVATIONS_TITLE": "Reservations",
+      "COL": {
+        "READER": "Reader",
+        "BOOK": "Book",
+        "DUE_DATE": "Due date",
+        "DAYS": "Days",
+        "AMOUNT": "Amount",
+        "INVENTORY": "Inventory no.",
+        "NOTIFIED": "Notified",
+        "SINCE": "Since",
+        "STATUS": "Status",
+        "ACTION": "Action"
+      },
+      "DETAILS": "Details",
+      "DELIVER": "Issue",
+      "RESERVATION_ACTION": "Action",
+      "EMPTY": {
+        "OVERDUE": "All books returned on time",
+        "AWAITING": "No reservations ready to issue",
+        "RESERVATIONS": "No reservations waiting"
+      }
     },
     "LOGIN" :  {
       "TITLE" : "Login Form",

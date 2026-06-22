@@ -1,8 +1,38 @@
 {
   "PAGES" : {
     "HOME" : {
-      "TITLE": "Bien benido a NTT DATA",
-      "WELCOME": "Gracias {{name}}"
+      "TITLE": "Inicio",
+      "WELCOME": "Gracias {{name}}",
+      "TODAY": "Hoy",
+      "ISSUE": "Entregar libro",
+      "STATS": {
+        "OVERDUE": "Vencidos",
+        "DUE_TODAY": "Vencen hoy",
+        "READY": "Listos para entregar"
+      },
+      "OVERDUE_TITLE": "Préstamos vencidos",
+      "AWAITING_TITLE": "Pendientes de recogida",
+      "RESERVATIONS_TITLE": "Reservas",
+      "COL": {
+        "READER": "Lector",
+        "BOOK": "Libro",
+        "DUE_DATE": "Fecha límite",
+        "DAYS": "Días",
+        "AMOUNT": "Importe",
+        "INVENTORY": "Nº inventario",
+        "NOTIFIED": "Notificado",
+        "SINCE": "Desde",
+        "STATUS": "Estado",
+        "ACTION": "Acción"
+      },
+      "DETAILS": "Detalles",
+      "DELIVER": "Entregar",
+      "RESERVATION_ACTION": "Acción",
+      "EMPTY": {
+        "OVERDUE": "Todos los libros se devolvieron a tiempo",
+        "AWAITING": "No hay reservas listas para entregar",
+        "RESERVATIONS": "No hay reservas en espera"
+      }
     },
     "LOGIN" :  {
       "TITLE": "Formulario de inicio",

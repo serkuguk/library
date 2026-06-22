@@ -36,33 +36,48 @@
 }
 
 :host ::ng-deep .custom-table .p-datatable-table-container {
-  border: 1px solid #dbe5f0;
-  border-radius: 1rem;
+  border: none;
+  border-radius: 0;
   overflow: hidden;
 }
 
 :host ::ng-deep .custom-table .p-datatable-thead > tr > th {
-  padding: 0.95rem 1rem;
-  background: #f8fafc;
-  border-color: #dbe5f0;
-  color: #334155;
-  font-size: 0.86rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  border-left: none;
+  border-right: none;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: 'Inter', sans-serif;
 }
 
 :host ::ng-deep .custom-table .p-datatable-tbody > tr > td {
-  padding: 0.95rem 1rem;
-  background-color: #ffffff;
-  border-color: #e2e8f0;
-  color: #0f172a;
+  padding: 0.875rem 1.25rem;
+  background-color: var(--color-surface);
+  border-top: none;
+  border-bottom: 1px solid var(--color-border);
+  border-left: none;
+  border-right: none;
+  color: var(--color-text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep .custom-table .p-datatable-tbody > tr:last-child > td {
+  border-bottom: none;
 }
 
 :host ::ng-deep .custom-table .p-datatable-tbody > tr:nth-child(even) > td {
-  background: #f8fbff;
+  background: var(--color-surface);
 }
 
 :host ::ng-deep .custom-table .p-datatable-tbody > tr:hover > td {
-  background: #eff6ff;
+  background: var(--color-accent-bg);
 }
 
 :host ::ng-deep .custom-table th,
@@ -85,7 +100,7 @@
 
 .tooltip-wrapper .tooltip-text {
   visibility: hidden;
-  background-color: #0f172a;
+  background-color: var(--color-text-primary);
   color: #fff;
   text-align: center;
   padding: 0.45rem 0.6rem;
@@ -135,7 +150,7 @@
   cursor: pointer;
   display: block;
   width: 100%;
-  color: #2563eb;
+  color: var(--color-accent);
 }
 
 :host ::ng-deep .custom-table .p-sortable-column-icon,
@@ -145,7 +160,7 @@
 :host ::ng-deep .custom-table .p-paginator-prev,
 :host ::ng-deep .custom-table .p-paginator-first,
 :host ::ng-deep .custom-table .p-paginator-last {
-  color: #475569;
+  color: var(--color-text-muted);
 }
 
 :host ::ng-deep .custom-table .p-paginator {
