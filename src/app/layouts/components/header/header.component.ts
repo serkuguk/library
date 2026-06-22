@@ -10,6 +10,7 @@ import {select, Store} from "@ngrx/store";
 import * as fromAuth from "@pages/auth";
 import * as fromLoginSelectors from "@pages/auth/store/user.selectors";
 import {UserPanelComponent} from "@app/componentes/user-panel/user-panel.component";
+import {BasicInputComponent} from "@shared/components/controls/basic-input/basic-input.component";
 
 @Component({
     selector: 'app-header',
@@ -21,7 +22,8 @@ import {UserPanelComponent} from "@app/componentes/user-panel/user-panel.compone
         ReactiveFormsModule,
         OverlayModule,
         CdkMenuModule,
-        UserPanelComponent
+        UserPanelComponent,
+        BasicInputComponent,
     ],
 })
 export class HeaderComponent implements OnInit {

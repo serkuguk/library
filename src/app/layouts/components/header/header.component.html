@@ -14,16 +14,12 @@
 
     @if (isAuthenticated$ | async) {
       <div class="header-search">
-        <div class="header-search__icon">
-          <i class="pi pi-search"></i>
-        </div>
-        <input
-          class="header-search__input"
-          type="text"
+        <app-basic-input
+          [floatLabel]="false"
+          [icon]="'pi pi-search'"
           [placeholder]="'Поиск: книги, читатели, экземпляры...'"
-          [formControl]="searchControl"
-          (keydown.escape)="searchControl.setValue('')"
-        />
+          [control]="searchControl"
+        ></app-basic-input>
       </div>
       <div class="header-right">
         <button class="lang-btn" (click)="toggleLang()" [title]="'Переключить язык'">

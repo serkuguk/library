@@ -15,6 +15,8 @@ import {FloatLabel} from "primeng/floatlabel";
 export class BasicInputComponent implements FormValueControl<string> {
     public placeholder = input<string>("Input some text...");
     public labelType = input<string>("in_label");
+    public floatLabel = input<boolean>(true);
+    public icon = input<string | null>(null);
     public control = input<FormControl<string | null> | FormControl<string> | null>(null);
     public disabled = input<boolean>(false);
     public changed = output<string>();
