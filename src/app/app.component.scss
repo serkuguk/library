@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #ffffff; //$base;
+  background-color: var(--color-bg);
 }
 
 main {
