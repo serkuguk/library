@@ -1,5 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GeneralUtilService} from "@shared/services/general-util.service";
 
 @Pipe({
   name: 'dateTimeFormaterPipe',
@@ -11,7 +10,11 @@ export class DateTimeFormaterPipe implements PipeTransform {
     if (!value) return '';
 
     const [date, time] = value.split('T');
-    const reversedDate = GeneralUtilService.dateStringToDate(date);
+    const reversedDate = this.dateStringToDate(date);
     return `${reversedDate} ${time}`;
+  }
+
+  private dateStringToDate(dateStr: string): string {
+    return dateStr.split('-').reverse().join('-');
   }
 }

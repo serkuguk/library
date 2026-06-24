@@ -3,7 +3,7 @@ import {
   isAuthCanMatch,
   loggedGuard,
   redirectLoggedInGuard
-} from '@pages/auth/services/auth.guard';
+} from '@core/auth/auth.guard';
 
 export const routes: Routes = [
   {

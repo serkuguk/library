@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiResponse, GlobalApiError } from '../models/api-response.model';
-import { ERROR_MESSAGES, ERROR_TITLES } from '../config/error-messages.config';
+import { ApiResponse, GlobalApiError } from '../error/api-response.model';
+import { ERROR_MESSAGES, ERROR_TITLES } from '@core/error/error-handler.service';
 
 @Injectable({
   providedIn: 'root',

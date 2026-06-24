@@ -9,7 +9,7 @@ import {CdkMenuModule} from "@angular/cdk/menu";
 import {select, Store} from "@ngrx/store";
 import * as fromAuth from "@pages/auth";
 import * as fromLoginSelectors from "@pages/auth/store/user.selectors";
-import {UserPanelComponent} from "@app/componentes/user-panel/user-panel.component";
+import {UserPanelComponent} from "@shared/components/user-panel/user-panel.component";
 import {BasicInputComponent} from "@shared/components/controls/basic-input/basic-input.component";
 
 @Component({

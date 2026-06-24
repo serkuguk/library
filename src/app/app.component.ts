@@ -5,9 +5,9 @@ import {CommonModule} from "@angular/common";
 
 //Store
 import {select, Store} from "@ngrx/store";
-import * as fromAuth from "@pages/auth";
-import * as fromLoginSelectors from "@pages/auth/store/user.selectors";
-import * as fromLoginAction from "@pages/auth/store/user.actions";
+import * as fromAuth from "@features/auth";
+import * as fromLoginSelectors from "@features/auth/store/user.selectors";
+import * as fromLoginAction from "@features/auth/store/user.actions";
 import {BodyComponent} from "@layouts/components/body/body.component";
 import {HeaderComponent} from "@layouts/components/header/header.component";
 import {FooterComponent} from "@layouts/components/footer/footer.component";

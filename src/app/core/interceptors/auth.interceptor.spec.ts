@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, provideHttpClient, withInterceptors } fr
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@core/auth/auth.service';
 import { AuthTokenStorageService } from '@core/services/auth-token-storage.service';
 import { authInterceptor } from './auth.interceptor';
 

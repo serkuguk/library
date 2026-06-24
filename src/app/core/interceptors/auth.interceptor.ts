@@ -3,7 +3,7 @@ import {HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/htt
 import {AuthTokenStorageService} from '../services/auth-token-storage.service';
 import {BehaviorSubject, catchError, switchMap, tap, throwError} from "rxjs";
 import {filter} from "rxjs/operators";
-import { AuthService } from "@core/services/auth/auth.service";
+import { AuthService } from "@core/auth/auth.service";
 
 let isRefreshing$ = new BehaviorSubject<boolean>(false);
 

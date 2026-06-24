@@ -6,7 +6,7 @@ import {Directive, HostListener, Input} from '@angular/core';
 export class NumberOnlyCopyPastDirective {
 
   @Input() pasteType: string = 'default';
-  @Input() isSpace: string;
+  @Input() isSpace: string = '';
 
   @HostListener('keyboard', ['$event'])
   onKeyBoard(event: KeyboardEvent) {
@@ -21,19 +21,20 @@ export class NumberOnlyCopyPastDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
-    let dataToPaste = event.clipboardData.getData('text');
+    let dataToPaste = event.clipboardData?.getData('text') ?? '';
 
     // \\t: Representa un carácter de tabulación.
     // \\n: Representa un carácter de nueva línea.
     // \\r: Representa un carácter de retorno de carro.
     // \\f: Representa un carácter de avance de formulario.
     // \\v: Representa un carácter de tabulación vertical.
-    let regEx: RegExp;
+    let regEx: RegExp = new RegExp('^[0-9]*$');
     switch (this.pasteType) {
       case 'withDotAndComma':
-        regEx = new RegExp('^[0-9\-\;\ \\t\\n\\r\\f\\v]*$');
+        regEx = new RegExp('^[0-9\\-\\;\\ \\t\\n\\r\\f\\v]*$');
         break;
       case 'default':
+      default:
         regEx = new RegExp('^[0-9]*$');
         break;
     }

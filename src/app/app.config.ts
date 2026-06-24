@@ -19,7 +19,7 @@ import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate
 import {AuthTokenStorageService} from "@core/services/auth-token-storage.service";
 import {JwtModule} from '@auth0/angular-jwt';
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {AuthService} from "@core/services/auth/auth.service";
+import {AuthService} from "@core/auth/auth.service";
 import {PlatformModule} from '@angular/cdk/platform';
 import {ENV} from "@core/tokens/environment.token";
 import {providePrimeNG} from "primeng/config";

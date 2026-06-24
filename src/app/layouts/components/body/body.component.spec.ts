@@ -28,13 +28,13 @@ describe('BodyComponent (unit methods only)', () => {
 
     describe('onToggleSideNav', () => {
         it('updates screenWidth and isSideNavCollapsed', () => {
-            component.getBoddyClass();
+            component.getBodyClass();
             expect(component.screenWidth()).toBe(768);
             expect(component.collapsed()).toBe(true);
         });
 
         it('handles collapsed = false', () => {
-            component.getBoddyClass();
+            component.getBodyClass();
             expect(component.screenWidth()).toBe(768);
             expect(component.collapsed()).toBe(false);
         });

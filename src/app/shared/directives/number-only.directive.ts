@@ -4,8 +4,8 @@ import { Directive, HostListener } from '@angular/core';
   selector: '[numberOnly]'
 })
 export class NumberOnlyDirective {
-    @HostListener('keydown', ['$event']) 
-    onKeyDown(event) {
+    @HostListener('keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
         const keys = ['delete', 'backspace', 'tab', 'escape', 'enter'];
         if (keys.indexOf(event.key.toLowerCase()) !== -1)  return;
 
